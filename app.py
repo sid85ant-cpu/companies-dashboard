@@ -10,11 +10,11 @@ st.write("This dashboard explores company distribution across sectors, countries
 
 # Load data
 # --- DATABASE CONNECTION ---
+import os
+
 @st.cache_data
 def load_data():
-    conn = psycopg2.connect(
-        "postgresql://postgres:Dash_bynature1526!@db.gsfoeohlqfbahludnkou.supabase.co:5432/postgres"
-    )
+    conn = psycopg2.connect(os.getenv("DB_URL"))
 
     query = "SELECT * FROM companies_staging;"
     df = pd.read_sql(query, conn)
