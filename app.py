@@ -8,7 +8,7 @@ import plotly.express as px
 
 st.set_page_config(layout="wide")
 
-st.title("📊 CopEx PAD Analystics Dashbpard (Companies OpEx Presentation and Disclosures Analytics Dashboard")
+st.title("📊 CopEx PAD Analytics Dashboard (Companies OpEx Presentation and Disclosures Analytics Dashboard")
 
 st.markdown("""
 **Executive Overview:**  
