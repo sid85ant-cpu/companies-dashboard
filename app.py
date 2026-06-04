@@ -10,7 +10,7 @@ st.set_page_config(layout="wide")
 
 st.title("📊 CopEx PAD Analytics Dashboard")
 
-st.markdown("### Companies OpEx Presentation and Disclosures Analytics Dashboard")
+st.markdown("### Companies Operating Expenditure Presentation and Disclosures Analytics Dashboard")
 st.markdown("""
 **Executive Overview:**  
 This dashboard provides a high-level analysis of sample company distribution across sectors, geographies, and expense presentation and disclosure structures.
