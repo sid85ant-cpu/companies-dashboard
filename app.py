@@ -5,10 +5,15 @@ import plotly.express as px
 
 # Page setup
 
-st.markdown("## 📊 Companies Analytics Dashboard")
-st.write("This dashboard explores company distribution across sectors, countries, and expense presentation types.")
 
-# Load data
+st.set_page_config(layout="wide")
+
+st.title("📊 CopEx PAD Analystics Dashbpard (Companies OpEx Presentation and Disclosures Analytics Dashboard")
+
+st.markdown("""
+**Executive Overview:**  
+This dashboard provides a high-level analysis of sample company distribution across sectors, geographies, and expense presentation and disclosure structures.
+""")
 # --- DATABASE CONNECTION ---
 import os
 
@@ -35,11 +40,11 @@ def load_data():
 
 df = load_data()
 
-
 # Clean column names (important)
 df.columns = df.columns.str.strip().str.lower()
+
 # Sidebar filters
-st.sidebar.header("Filters")
+st.sidebar.header("🎛️ Filters")
 
 country_filter = st.sidebar.multiselect(
     "Select Country",
@@ -67,15 +72,31 @@ filtered_df = df[
 ]
 
 # KPIs
-col1, col2, col3 = st.columns(3)
+st.markdown("## 📌 Key Metrics")
 
-col1.metric("Total Companies", filtered_df["cid"].nunique())
-col2.metric("Total Countries", filtered_df["country"].nunique())
-col3.metric("Total Sectors", filtered_df["sector"].nunique())
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("Companies", filtered_df["cid"].nunique())
+col2.metric("Countries", filtered_df["country"].nunique())
+col3.metric("Sectors", filtered_df["sector"].nunique())
+col4.metric("Expense Types", filtered_df["expense_type"].nunique())
 
 st.divider()
 
-# Charts
+top_sector = filtered_df["sector"].value_counts().idxmax()
+top_country = filtered_df["country"].value_counts().idxmax()
+
+st.markdown(f"""
+
+## 🔎 Key Insights
+
+- The most represented **sector** is **{top_sector}**
+- The highest concentration of companies is in **{top_country}**
+- This suggests clustering in specific industries and regions
+""")
+
+st.markdown("## 📊 Distribution Analysis")
+
 col4, col5 = st.columns(2)
 
 with col4:
@@ -98,14 +119,16 @@ with col5:
     )
     st.plotly_chart(country_chart, use_container_width=True)
 
-# Expense type chart
+
+st.markdown("## 💰 Expense Structure")
+
 expense_chart = px.pie(
     filtered_df,
     names="expense_type",
     title="Expense Type Distribution"
 )
-st.plotly_chart(expense_chart, use_container_width=True)
+
 
 # Table
-st.subheader("📋 Data Table")
-st.dataframe(filtered_df)
+st.markdown("## 📋 Detailed Data")
+st.dataframe(filtered_df, use_container_width=True)
