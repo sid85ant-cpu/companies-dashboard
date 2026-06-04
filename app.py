@@ -15,7 +15,12 @@ import os
 @st.cache_data
 def load_data():
     try:
-        conn = psycopg2.connect(os.getenv("DB_URL"))
+        
+        conn = psycopg2.connect(
+            os.getenv("DB_URL"),
+            sslmode="require"
+        )
+
 
         query = "SELECT * FROM companies_staging;"
         df = pd.read_sql(query, conn)
