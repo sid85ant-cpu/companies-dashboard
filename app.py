@@ -14,14 +14,19 @@ import os
 
 @st.cache_data
 def load_data():
-    conn = psycopg2.connect(os.getenv("DB_URL"))
+    try:
+        conn = psycopg2.connect(os.getenv("DB_URL"))
 
-    query = "SELECT * FROM companies_staging;"
-    df = pd.read_sql(query, conn)
-    conn.close()
+        query = "SELECT * FROM companies_staging;"
+        df = pd.read_sql(query, conn)
+        conn.close()
 
-    df.columns = df.columns.str.strip().str.lower()
-    return df
+        df.columns = df.columns.str.strip().str.lower()
+        return df
+
+    except Exception as e:
+        st.error(f"DB ERROR: {e}")
+        return pd.DataFrame()
 
 df = load_data()
 
